@@ -1,5 +1,6 @@
 package de.springbootbuch.caching;
 
+import java.time.Year;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.hamcrest.Matchers.is;
@@ -55,6 +56,16 @@ public class CacheableExampleTest {
 		result = cachingExamples.findFilm("Twins");
 		assertThat(result.isPresent(), is(true));
 		assertThat(counter.get(), is(7));
+		
+		cachingExamples.udpdateFilm("Twins");
+		result = cachingExamples.findFilm("Twins");
+		assertThat(result.isPresent(), is(true));
+		assertThat(counter.get(), is(8));
+		
+		cachingExamples.insertFilm("Alien", Year.of(1979));
+		result = cachingExamples.findFilm("Alien");
+		assertThat(result.isPresent(), is(true));
+		assertThat(counter.get(), is(8));
 	}
 
 }
