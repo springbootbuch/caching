@@ -5,6 +5,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+/**
+ * Part of springbootbuch.de.
+ *
+ * @author Michael J. Simons
+ * @author @rotnroll666
+ */
 @Component
 public class SynchedCachingDemoComponent {
 	private final AtomicInteger counterDefault 
