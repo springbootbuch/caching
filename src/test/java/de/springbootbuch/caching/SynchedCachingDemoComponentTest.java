@@ -1,21 +1,21 @@
 package de.springbootbuch.caching;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class SynchedCachingDemoComponentTest {
 
@@ -34,7 +34,7 @@ public class SynchedCachingDemoComponentTest {
 		Stream.generate(() -> new Runnable() {
 			@Override
 			public void run() {
-				
+
 				try {
 					final int res = syncedCaching.computeSomething();
 					LOG.info("Result was {}", res);
@@ -45,7 +45,7 @@ public class SynchedCachingDemoComponentTest {
 			}
 		}).limit(num).parallel().forEach(executor::submit);
 		latch.await();
-		assertThat(syncedCaching.getCounterDefault().get(), is(greaterThan(1)));
+		assertThat(syncedCaching.getCounterDefault().get()).isGreaterThan(1);
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class SynchedCachingDemoComponentTest {
 			}
 		}).limit(num).parallel().forEach(executor::submit);
 		latch.await();
-		assertThat(syncedCaching.getCounterSynced().get(), is(1));
+		assertThat(syncedCaching.getCounterSynced().get()).isEqualTo(1);
 	}
 
 }
